@@ -1,0 +1,316 @@
+@startuml BookStoreSequenceDiagram
+
+!define SPRING class
+!define REST class
+!define JAVA class
+!define SPRING_INTERFACE interface
+!define JAVA_INTERFACE interface
+
+package com.example.demo {
+    SPRING DemoApplication {
+    }
+}
+
+package com.example.demo.controller {
+    SPRING AuthorController {
+        - authorRepository: AuthorRepository {readOnly}
+        +createAuthor(AuthorRequest): ResponseEntity<Author>
+        +getAllAuthors(): ResponseEntity<List<Author>>
+    }
+    SPRING BookController {
+    - bookRepository: BooksRepository {readOnly}
+        +createBook(BookRequest): ResponseEntity<Book>
+        +getAllBooks(): ResponseEntity<List<Book>>
+        +getBook(ISBN: String): ResponseEntity<Book>
+        +getAllBooksByAuthor(authorID: String): ResponseEntity<List<Book>>
+    }
+}
+
+package com.example.demo.model {
+    JAVA Author {
+        - authorID: String
+        - firstName: String
+        - lastName: String
+        - biography: String
+        - publisher: String
+
+        + getAuthorID(): String
+        + getFirstName(): String
+        + getLastName(): String
+        + getBiography(): String
+        + getPublisher(): String
+        + setAuthorID(authorID: String): void
+        + setFirstName(firstName: String): void
+        + setLastName(lastName: String): void
+        + setBiography(biography: String): void
+        + setPublisher(publisher: String): void
+    }
+    JAVA Book {
+        - ISBN: String
+        - name: String
+        - bookDescription: String
+        - price: double
+        - author: Author
+        - genre: String
+        - publisher: String
+        - yearPublished: int
+        - copiesSold: int
+
+        + getISBN(): String
+        + setISBN(ISBN: String): void
+        + getName(): String
+        + setName(name: String): void
+        + getBookDescription(): String
+        + setBookDescription(bookDescription: String): void
+        + getPrice(): double
+        + setPrice(price: double): void
+        + getAuthor(): Author
+        + setAuthor(author: Author): void
+        + getGenre(): String
+        + setGenre(genre: String): void
+        + getPublisher(): String
+        + setPublisher(publisher: String): void
+        + getYearPublished(): int
+        + setYearPublished(yearPublished: int): void
+        + getCopiesSold(): int
+        + setCopiesSold(copiesSold: int): void
+    }
+}
+
+package com.example.demo.repository {
+    SPRING_INTERFACE AuthorRepository {
+    }
+    SPRING_INTERFACE BooksRepository {
+        +findByAuthorId(authorID: String): List<Book>
+    }
+}
+
+package com.example.demo.resource {
+    JAVA AuthorRequest {
+        - authorID: String
+                - firstName: String
+                - lastName: String
+                - biography: String
+                - publisher: String
+
+                + getAuthorID(): String
+                + getFirstName(): String
+                + getLastName(): String
+                + getBiography(): String
+                + getPublisher(): String
+                + setAuthorID(authorID: String): void
+                + setFirstName(firstName: String): void
+                + setLastName(lastName: String): void
+                + setBiography(biography: String): void
+                + setPublisher(publisher: String): void
+    }
+    JAVA BookRequest {
+        - ISBN: String
+                - name: String
+                - bookDescription: String
+                - price: double
+                - author: Author
+                - genre: String
+                - publisher: String
+                - yearPublished: int
+                - copiesSold: int
+
+                + getISBN(): String
+                + setISBN(ISBN: String): void
+                + getName(): String
+                + setName(name: String): void
+                + getBookDescription(): String
+                + setBookDescription(bookDescription: String): void
+                + getPrice(): double
+                + setPrice(price: double): void
+                + getAuthor(): Author
+                + setAuthor(author: Author): void
+                + getGenre(): String
+                + setGenre(genre: String): void
+                + getPublisher(): String
+                + setPublisher(publisher: String): void
+                + getYearPublished(): int
+                + setYearPublished(yearPublished: int): void
+                + getCopiesSold(): int
+                + setCopiesSold(copiesSold: int): void
+    }
+}
+
+AuthorController -- AuthorRepository: <<REST>>
+BookController -- BooksRepository: <<REST>>
+BookController -- AuthorRepository: <<REST>>
+
+AuthorController -- AuthorRequest: <<REST>>
+BookController -- BookRequest: <<REST>>
+
+Author -- Book: "1 to many"
+
+DemoApplication --> AuthorController: <<REST>>
+DemoApplication --> BookController: <<REST>>
+
+AuthorController --> AuthorRepository: <<REST>>
+BookController --> BooksRepository: <<REST>>
+
+AuthorController --* AuthorRepository: "1..1"
+BookController --* BooksRepository: "1..1"
+
+AuthorController --> AuthorRequest: <<REST>>
+BookController --> BookRequest: <<REST>>
+/' *Sequence Diagram* actor User
+
+User -> AuthorController: POST /author (Create Author)
+activate AuthorController
+AuthorController -> AuthorService: Create Author
+activate AuthorService
+AuthorService -> AuthorRepository: Save Author
+activate AuthorRepository
+AuthorRepository --> AuthorService: Author Created
+deactivate AuthorRepository
+AuthorService --> AuthorController: Author Created
+deactivate AuthorService
+deactivate AuthorController
+
+User -> AuthorController: GET /author (Get All Authors)
+activate AuthorController
+AuthorController -> AuthorService: Get All Authors
+activate AuthorService
+AuthorService -> AuthorRepository: Find All Authors
+activate AuthorRepository
+AuthorRepository --> AuthorService: List of Authors
+deactivate AuthorRepository
+AuthorService --> AuthorController: List of Authors
+deactivate AuthorService
+deactivate AuthorController
+
+User -> BookController: POST /book (Create Book)
+activate BookController
+BookController -> BookService: Create Book
+activate BookService
+BookService -> BooksRepository: Save Book
+activate BooksRepository
+BooksRepository --> BookService: Book Created
+deactivate BooksRepository
+BookService --> BookController: Book Created
+deactivate BookService
+deactivate BookController
+
+User -> BookController: GET /book (Get All Books)
+activate BookController
+BookController -> BookService: Get All Books
+activate BookService
+BookService -> BooksRepository: Find All Books
+activate BooksRepository
+BooksRepository --> BookService: List of Books
+deactivate BooksRepository
+BookService --> BookController: List of Books
+deactivate BookService
+deactivate BookController
+
+User -> BookController: GET /book/{ISBN} (Get Book by ISBN)
+activate BookController
+BookController -> BookService: Get Book by ISBN
+activate BookService
+BookService -> BooksRepository: Find Book by ISBN
+activate BooksRepository
+BooksRepository --> BookService: Book by ISBN
+deactivate BooksRepository
+BookService --> BookController: Book Details by ISBN
+deactivate BookService
+deactivate BookController
+
+User -> BookController: GET /collection/{authorID} (Get Books by Author)
+activate BookController
+BookController -> BookService: Get Books by Author
+activate BookService
+BookService -> BooksRepository: Find Books by AuthorID
+activate BooksRepository
+BooksRepository --> BookService: Books by AuthorID
+deactivate BooksRepository
+BookService --> BookController: Books by AuthorID
+deactivate BookService
+deactivate BookController
+'/
+
+/' diagram metadata start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.example.demo.DemoApplication",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+
+
+'edges    
+
+
+@enduml
