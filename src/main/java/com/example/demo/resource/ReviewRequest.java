@@ -1,22 +1,21 @@
-package com.example.demo.model;
+package com.example.demo.resource;
 
-import org.springframework.data.annotation.Id;
+import com.example.demo.model.Product;
 
 import java.util.ArrayList;
 
-public class ReviewFormat extends Product{
+public class ReviewRequest extends Product {
 
-    @Id
     private ArrayList<String> bookReviews = new ArrayList<String>();
 
     private String customerName;
 
     private String review;
 
-    public ReviewFormat() {
+    public ReviewRequest() {
     }
 
-    public ReviewFormat(ArrayList<String> bookReviews, String customerName, String review) {
+    public ReviewRequest(ArrayList<String> bookReviews, String customerName, String review) {
         super.ProductRequest();
         this.bookReviews = bookReviews;
         this.customerName = customerName;
