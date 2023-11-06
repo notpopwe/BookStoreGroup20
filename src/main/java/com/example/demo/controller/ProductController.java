@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Product;
+import com.example.demo.model.ReviewandRating;
 import com.example.demo.repository.ProductRepository;
-import com.example.demo.resource.ProductRequest;
+import com.example.demo.resource.ReviewandRatingRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,22 +21,22 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
-    @GetMapping("/product")
-    public ResponseEntity<List<Product>> getAllProducts() {
+    @GetMapping("/products")
+    public ResponseEntity<List<ReviewandRating>> getAllProducts() {
 
         return ResponseEntity.ok(this.productRepository.findAll());
     }
 
-    @PostMapping("/product")
-    public ResponseEntity<Product> createProduct(@RequestBody ProductRequest productRequest) {
+    @PostMapping("/products")
+    public ResponseEntity<ReviewandRating> createProduct(@RequestBody ReviewandRatingRequest productRequest) {
 
-        Product product = new Product();
+        ReviewandRating product = new ReviewandRating();
 
-        product.setTitle(productRequest.getTitle());
-        product.setAuthor(productRequest.getAuthor());
-        product.setPages(productRequest.getPages());
-        product.setOverallRating(productRequest.getOverallRating());
-        product.setGenre(productRequest.getGenre());
+        product.setBookID(productRequest.getBookID());
+        product.setUserID(productRequest.getUserID());
+        product.setRating(productRequest.getRating());
+        product.setReviews(productRequest.getReviews());
+
 
 
         return ResponseEntity.status(201).body(this.productRepository.save(product));
