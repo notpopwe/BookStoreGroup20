@@ -1,15 +1,18 @@
-package com.example.demo.resource;
+package com.example.demo.model;
 
-public class ReviewRequest {
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document("/reviews")
+public class Review {
 
     private String user;
 
     private String userReview;
 
-    public ReviewRequest() {
+    public Review() {
     }
 
-    public ReviewRequest(String user, String userReview) {
+    public Review(String[][] reviews, String userReview) {
         this.user = user;
         this.userReview = userReview;
     }

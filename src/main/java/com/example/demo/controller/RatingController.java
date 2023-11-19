@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.RatingFormat;
-import com.example.demo.repository.ProductRepository;
+import com.example.demo.model.Rating;
+import com.example.demo.repository.RatingRepository;
 import com.example.demo.resource.RatingRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,25 +13,25 @@ import java.util.List;
 
 @RestController
 public class RatingController {
-    private final ProductRepository ratingRepository;
+    private final RatingRepository ratingRepository;
 
 
-    public RatingController(ProductRepository ratingRepository) {
+    public RatingController(RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;
     }
 
     @GetMapping("/Ratings")
-    public ResponseEntity<List<RatingFormat>> getAllRatings() {
+    public ResponseEntity<List<Rating>> getAllRatings() {
         return
     }
 
     @PostMapping("/Ratings")
-    public ResponseEntity<RatingFormat> createRating(@RequestBody RatingRequest productRequest) {
-        RatingFormat ratings = new RatingFormat();
+    public ResponseEntity<Rating> createRating(@RequestBody RatingRequest productRequest) {
+        Rating ratings = new Rating();
 
-        ratings.setOverallRating(productRequest.getOverallRating());
 
-        return ResponseEntity.status(201).body(this.ratingRepository.save(ratings));
+
+        return
 
     }
 }

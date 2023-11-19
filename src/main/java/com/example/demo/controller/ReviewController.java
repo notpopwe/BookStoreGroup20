@@ -1,37 +1,43 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ReviewFormat;
-import com.example.demo.repository.ProductRepository;
+import com.example.demo.model.Review;
+import com.example.demo.repository.ReviewRepository;
 import com.example.demo.resource.ReviewRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ReviewController{
 
-    private final ProductRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
 
-    public ReviewController(ProductRepository reviewRepository) {
+    public ReviewController(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
-    @GetMapping("/Reviews")
-    public ResponseEntity<List<ReviewFormat>> getAllReview() {
-        return
-    }
+    @PostMapping("/reviews")
+    public ResponseEntity<Review> createReview(@RequestBody ReviewRequest productRequest) {
+        Review reviews = new Review();
 
-    @PostMapping("/Reviews")
-    public ResponseEntity<ReviewFormat> createReview(@RequestBody ReviewRequest productRequest) {
-        ReviewFormat reviews = new ReviewFormat();
-
-        reviews.setBookReviews(productRequest.getBookReviews());
+        reviews.setUser(productRequest.getUser());
         reviews.setUserReview(productRequest.getUserReview());
 
-        return
+        return ResponseEntity.status(201).body(this.reviewRepository.save(reviews));
+    }
+
+    @GetMapping("/reviews/book")
+    public ResponseEntity getAllReviewsbyISBN(@PathVariable String ISBN) {
+
+        Optional<Review> bookReviews = this.reviewRepository.findById((ISBN));
+
+        if(bookReviews.isPresent())
+        {
+            return ResponseEntity.ok(bookReviews.get());
+        }
+        else{
+            return ResponseEntity.ok("This book(" + ISBN + ") does not have any reviews at the moment");
+        }
     }
 }
