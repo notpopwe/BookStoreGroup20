@@ -6,6 +6,7 @@ import com.example.demo.resource.ReviewRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,8 +18,8 @@ public class ReviewController{
         this.reviewRepository = reviewRepository;
     }
 
-    @PostMapping("/reviews")
-    public ResponseEntity<Review> createReview(@RequestBody ReviewRequest productRequest) {
+    @PostMapping("/book/{review}")
+    public ResponseEntity<Review> createReview(@RequestBody ReviewRequest productRequest, @PathVariable String review) {
         Review reviews = new Review();
 
         reviews.setUser(productRequest.getUser());
@@ -27,17 +28,17 @@ public class ReviewController{
         return ResponseEntity.status(201).body(this.reviewRepository.save(reviews));
     }
 
-    @GetMapping("/reviews/book")
-    public ResponseEntity getAllReviewsbyISBN(@PathVariable String ISBN) {
+    @GetMapping("/reviews/{ISBN}")
+    public ResponseEntity<List<Review>> getAllReviewsbyISBN(@PathVariable String ISBN) {
 
-        Optional<Review> bookReviews = this.reviewRepository.findById((ISBN));
+        Optional<Review> bookReviews = Optional.ofNullable(this.reviewRepository.findByISBN((ISBN)));
 
         if(bookReviews.isPresent())
         {
-            return ResponseEntity.ok(bookReviews.get());
+            return ResponseEntity.ok(this.reviewRepository.);
         }
         else{
-            return ResponseEntity.ok("This book(" + ISBN + ") does not have any reviews at the moment");
+            return ResponseEntity.ok();
         }
     }
 }
