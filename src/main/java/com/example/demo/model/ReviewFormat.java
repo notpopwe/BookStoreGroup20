@@ -3,7 +3,7 @@ package com.example.demo.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("/Reviews")
-public class ReviewFormat extends ReviewandRating {
+public class ReviewFormat{
 
     private String[][] bookReviews;
 
@@ -12,8 +12,7 @@ public class ReviewFormat extends ReviewandRating {
     public ReviewFormat() {
     }
 
-    public ReviewFormat(String id, String bookID, String userID, String book, String user, int rating, String[][] reviews, String userReview) {
-        super(id, bookID, userID, book, user, rating);
+    public ReviewFormat(String[][] reviews, String userReview) {
         this.bookReviews = reviews;
         this.userReview = userReview;
     }

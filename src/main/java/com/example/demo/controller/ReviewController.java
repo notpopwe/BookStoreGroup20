@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.ReviewFormat;
-import com.example.demo.model.ReviewandRating;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.resource.ReviewRequest;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class ReviewController extends ReviewandRating{
+public class ReviewController{
 
     private final ProductRepository reviewRepository;
 
@@ -22,8 +21,8 @@ public class ReviewController extends ReviewandRating{
     }
 
     @GetMapping("/Reviews")
-    public ResponseEntity<List<ReviewandRating>> getAllReview() {
-        return ResponseEntity.ok(this.reviewRepository.findAll());
+    public ResponseEntity<List<ReviewFormat>> getAllReview() {
+        return
     }
 
     @PostMapping("/Reviews")
@@ -33,6 +32,6 @@ public class ReviewController extends ReviewandRating{
         reviews.setBookReviews(productRequest.getBookReviews());
         reviews.setUserReview(productRequest.getUserReview());
 
-        return ResponseEntity.status(201).body(this.reviewRepository.save(reviews));
+        return
     }
 }

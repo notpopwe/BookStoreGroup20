@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.RatingFormat;
-import com.example.demo.model.ReviewandRating;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.resource.RatingRequest;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,8 @@ public class RatingController {
     }
 
     @GetMapping("/Ratings")
-    public ResponseEntity<List<ReviewandRating>> getAllRatings() {
-        return ResponseEntity.ok(this.ratingRepository.findAll());
+    public ResponseEntity<List<RatingFormat>> getAllRatings() {
+        return
     }
 
     @PostMapping("/Ratings")
