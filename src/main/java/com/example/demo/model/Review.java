@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("/reviews")
+@Document("book/{reviews}")
 public class Review {
 
     private String user;

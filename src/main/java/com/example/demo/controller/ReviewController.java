@@ -18,8 +18,8 @@ public class ReviewController{
         this.reviewRepository = reviewRepository;
     }
 
-    @PostMapping("/book/{review}")
-    public ResponseEntity<Review> createReview(@RequestBody ReviewRequest productRequest, @PathVariable String review) {
+    @PostMapping("/book/{reviews}")
+    public ResponseEntity<Review> createReview(@RequestBody ReviewRequest productRequest) {
         Review reviews = new Review();
 
         reviews.setUser(productRequest.getUser());
@@ -28,14 +28,14 @@ public class ReviewController{
         return ResponseEntity.status(201).body(this.reviewRepository.save(reviews));
     }
 
-    @GetMapping("/reviews/{ISBN}")
-    public ResponseEntity<List<Review>> getAllReviewsbyISBN(@PathVariable String ISBN) {
+    @GetMapping("/book/{ISBN, reviews}")
+    public ResponseEntity<List<Review>> getAllReviewsByISBN(@PathVariable String ISBN) {
 
         Optional<Review> bookReviews = Optional.ofNullable(this.reviewRepository.findByISBN((ISBN)));
 
         if(bookReviews.isPresent())
         {
-            return ResponseEntity.ok(this.reviewRepository.);
+            return ResponseEntity.ok(this.reviewRepository.findAll());
         }
         else{
             return ResponseEntity.ok();
