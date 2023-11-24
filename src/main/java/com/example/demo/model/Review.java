@@ -1,28 +1,23 @@
 package com.example.demo.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document("book/{reviews}")
-public class Review {
+public class Review extends User{
 
-    private String user;
+    @Field(value = "username")
 
+    @Field(value = "body")
     private String userReview;
 
     public Review() {
     }
 
-    public Review(String[][] reviews, String userReview) {
-        this.user = user;
+    public Review(String username, String userReview)
+    {
+        super(username);
         this.userReview = userReview;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public String getUserReview() {
