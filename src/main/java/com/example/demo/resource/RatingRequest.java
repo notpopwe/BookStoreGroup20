@@ -1,16 +1,19 @@
 package com.example.demo.resource;
 
 public class RatingRequest {
-
     private float userRating;
-    private float overallRating;
+    private float averageRating;
+    private String ISBN;
+    private String username;
 
     public RatingRequest() {
     }
 
-    public RatingRequest(float userRating, float overallRating) {
+    public RatingRequest(float userRating, float averageRating, String ISBN, String username) {
         this.userRating = userRating;
-        this.overallRating = overallRating;
+        this.averageRating = averageRating;
+        this.ISBN = ISBN;
+        this.username = username;
     }
 
     public float getUserRating() {
@@ -21,11 +24,27 @@ public class RatingRequest {
         this.userRating = userRating;
     }
 
-    public float getOverallRating() {
-        return overallRating;
+    public float getAverageRating() {
+        return averageRating;
     }
 
-    public void setOverallRating(float overallRating) {
-        this.overallRating = overallRating;
+    public void setAverageRating(float averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

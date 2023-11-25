@@ -25,14 +25,15 @@ public class ReviewController{
         reviews.setISBN(productRequest.getISBN());
         reviews.setUsername(productRequest.getUsername());
         reviews.setUserReview(productRequest.getUserReview());
+        reviews.setName(productRequest.getName());
 
         return ResponseEntity.status(201).body(this.reviewRepository.save(reviews));
     }
 
-    @GetMapping("/books/{ISBN, reviews}")
+    @GetMapping("/books/{ISBN}")
     public ResponseEntity<List<Review>> getAllReviewsByISBN(@PathVariable String ISBN) {
 
-        Optional<Review> bookReviews = Optional.ofNullable(this.reviewRepository.findByISBN((ISBN)));
+        Optional<Review> bookReviews = Optional.ofNullable((Review) this.reviewRepository.findByISBN((ISBN)));
 
             return ResponseEntity.ok(this.reviewRepository.findAll());
     }

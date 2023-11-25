@@ -6,9 +6,6 @@ import com.example.demo.resource.RatingRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 public class RatingController {
     private final RatingRepository ratingRepository;
@@ -18,18 +15,21 @@ public class RatingController {
         this.ratingRepository = ratingRepository;
     }
 
-    @GetMapping("/book/{rating}")
-    public ResponseEntity getAverageRatings(@PathVariable String book) {
-        Optional<List<Rating>> averageRating = (this.ratingRepository.findAllRatings());
+    @GetMapping("/book/{ISBN}")
+    public ResponseEntity getAverageRatings(@PathVariable String ISBN) {
+        Rating averageRating = (this.ratingRepository.findAverage());
 
-        return ResponseEntity.ok(this.ratingRepository.findAll());
+        return ResponseEntity.ok(this.ratingRepository.findAverage());
     }
 
     @PostMapping("/user/book/{rating}")
     public ResponseEntity<Rating> createRating(@RequestBody RatingRequest ratingRequest) {
         Rating ratings = new Rating();
 
+        ratings.setISBN(ratingRequest.getISBN());
+        ratings.setUsername(ratingRequest.getUsername());
         ratings.setUserRating(ratingRequest.getUserRating());
+
         return ResponseEntity.status(201).body(this.ratingRepository.save(ratings));
 
     }
