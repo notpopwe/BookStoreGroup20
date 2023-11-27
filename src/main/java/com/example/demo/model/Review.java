@@ -1,36 +1,36 @@
 package com.example.demo.model;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document("book/{reviews}")
+@Document("reviews")
 public class Review {
 
-    @Field(value = "body")
-    private String userReview;
-    @DBRef
+    @Id
+    private String reviewID;
+    //@DBRef
     private String ISBN;
     private String username;
-    @Field(value = "name")
+    private String userReview;
     private String name;
 
     public Review() {
     }
 
-    public Review(String userReview, String ISBN, String username, String name) {
-        this.userReview = userReview;
+    public Review(String reviewID, String ISBN, String username, String userReview, String name) {
+        this.reviewID = reviewID;
         this.ISBN = ISBN;
         this.username = username;
+        this.userReview = userReview;
         this.name = name;
     }
 
-    public String getUserReview() {
-        return userReview;
+    public String getReviewID() {
+        return reviewID;
     }
 
-    public void setUserReview(String userReview) {
-        this.userReview = userReview;
+    public void setReviewID(String reviewID) {
+        this.reviewID = reviewID;
     }
 
     public String getISBN() {
@@ -47,6 +47,14 @@ public class Review {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUserReview() {
+        return userReview;
+    }
+
+    public void setUserReview(String userReview) {
+        this.userReview = userReview;
     }
 
     public String getName() {

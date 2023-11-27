@@ -18,23 +18,35 @@ public class ReviewController{
         this.reviewRepository = reviewRepository;
     }
 
-    @PostMapping("/books/{reviews}")
-    public ResponseEntity<Review> createReview(@RequestBody ReviewRequest productRequest) {
-        Review reviews = new Review();
-
-        reviews.setISBN(productRequest.getISBN());
-        reviews.setUsername(productRequest.getUsername());
-        reviews.setUserReview(productRequest.getUserReview());
-        reviews.setName(productRequest.getName());
-
-        return ResponseEntity.status(201).body(this.reviewRepository.save(reviews));
+    @GetMapping("/reviews")
+    public ResponseEntity <List<Review>> getAllReviews() {
+        return ResponseEntity.ok(this.reviewRepository.findAll());
     }
 
-    @GetMapping("/books/{ISBN}")
-    public ResponseEntity<List<Review>> getAllReviewsByISBN(@PathVariable String ISBN) {
+    /*Get all reviews for the selected ISBN*/
+    @GetMapping("/reviews/{ISBN}")
+    public ResponseEntity getAllReviewsByISBN(@PathVariable String ISBN) {
+        List<Review> bookReviews = this.reviewRepository.findByISBN(ISBN);
 
-        Optional<Review> bookReviews = Optional.ofNullable((Review) this.reviewRepository.findByISBN((ISBN)));
+        if(bookReviews.isEmpty())
+        {
+            return ResponseEntity.notFound().build();
+        }else {
+            return ResponseEntity.ok(bookReviews);
+        }
 
-            return ResponseEntity.ok(this.reviewRepository.findAll());
+    }
+
+    @PostMapping("/reviews")
+    public ResponseEntity<Review> createReview(@RequestBody ReviewRequest reviewRequest) {
+        Review reviews = new Review();
+
+        reviews.setReviewID(reviews.getReviewID());
+        reviews.setISBN(reviewRequest.getISBN());
+        reviews.setUsername(reviewRequest.getUsername());
+        reviews.setUserReview(reviewRequest.getUserReview());
+        reviews.setName(reviewRequest.getName());
+
+        return ResponseEntity.status(201).body((Review)this.reviewRepository.save(reviews));
     }
 }

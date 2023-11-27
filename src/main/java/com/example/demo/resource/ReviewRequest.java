@@ -1,6 +1,7 @@
 package com.example.demo.resource;
 
 public class ReviewRequest {
+    private String reviewID;
 
     private String userReview;
     private String ISBN;
@@ -10,11 +11,20 @@ public class ReviewRequest {
     public ReviewRequest() {
     }
 
-    public ReviewRequest(String userReview, String ISBN, String username, String name) {
+    public ReviewRequest(String reviewID, String userReview, String ISBN, String username, String name) {
+        this.reviewID = reviewID;
         this.userReview = userReview;
         this.ISBN = ISBN;
         this.username = username;
         this.name = name;
+    }
+
+    public String getReviewID() {
+        return reviewID;
+    }
+
+    public void setReviewID(String reviewID) {
+        this.reviewID = reviewID;
     }
 
     public String getUserReview() {
