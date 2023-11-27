@@ -9,11 +9,13 @@ public class ProductRequest {
     public ProductRequest() {
     }
 
-    public ProductRequest(String listName, String userID, String book, String bookName) {
+    public void listRequest(String listName, String userID) {
         this.listName = listName;
         this.userID = userID;
+    }
+
+    public void bookRequest(String book) {
         this.book = book;
-        this.bookName = bookName;
     }
 
     public String getListName() {

@@ -24,6 +24,17 @@ public class Product {
         this.book = book;
     }
 
+    public void List(String listName, String userID) {
+        this.listName = listName;
+        this.userID = userID;
+    }
+
+    public void Book(String book, String bookName) {
+        this.bookName = bookName;
+        this.book = book;
+    }
+
+
     public String getId() {
         return id;
     }

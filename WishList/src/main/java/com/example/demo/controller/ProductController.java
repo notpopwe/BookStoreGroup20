@@ -6,6 +6,7 @@ import com.example.demo.resource.ProductRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,34 +23,26 @@ public class ProductController {
         return ResponseEntity.ok(this.productRepository.findAll());
     }
 
+    @GetMapping("/userID/{id}")
+    public ResponseEntity<List<Product>> getListProducts(@PathVariable String id) {
+        return ResponseEntity.ok(this.productRepository.findAll());
+    }
+
     @PostMapping("/userID")
-    public ResponseEntity<Product> createWishList(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<Product> createWishList(@RequestBody ProductRequest listRequest) {
         Product product = new Product();
-        product.setListName(productRequest.getListName());
-        product.setUserID(productRequest.getUserID());
+        product.setListName(listRequest.getListName());
+        product.setUserID(listRequest.getUserID());
 
         return ResponseEntity.status(201).body(this.productRepository.save(product));
     }
 
     @PostMapping("/userID/{id}")
-    public ResponseEntity<Product> createBook(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<Product> createBook(@RequestBody ProductRequest bookRequest) {
         Product product = new Product();
-        product.setBook(productRequest.getBook());
-        product.setBookName(productRequest.getBookName());
+        product.setBook(bookRequest.getBook());
 
         return ResponseEntity.status(201).body(this.productRepository.save(product));
-    }
-
-    @GetMapping("/userID/{id}")
-    public ResponseEntity getProductByID(@PathVariable String id) {
-
-        Optional<Product> product = this.productRepository.findById(id);
-
-        if(product.isPresent()) {
-            return ResponseEntity.ok(product.get());
-        } else {
-            return ResponseEntity.ok("The book with id: " + id + " was not found.");
-        }
     }
 
     @DeleteMapping("/userID/{id}")
@@ -63,5 +56,11 @@ public class ProductController {
         } else {
                 return ResponseEntity.ok("The book with id: " + id + " was not found for deletion.");
         }
+    }
+
+    @DeleteMapping("/userID")
+    public ResponseEntity deleteAll () {
+        this.productRepository.deleteAll();
+        return null;
     }
 }
