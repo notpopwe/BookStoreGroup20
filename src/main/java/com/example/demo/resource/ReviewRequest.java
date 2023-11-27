@@ -1,5 +1,8 @@
 package com.example.demo.resource;
 
+import com.example.demo.model.Book;
+import com.example.demo.model.User;
+
 public class ReviewRequest {
     private String reviewID;
 

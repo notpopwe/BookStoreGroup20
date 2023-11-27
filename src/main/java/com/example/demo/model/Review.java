@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("reviews")
@@ -8,20 +9,20 @@ public class Review {
 
     @Id
     private String reviewID;
-    //@DBRef
+    private String userReview;
+
     private String ISBN;
     private String username;
-    private String userReview;
     private String name;
 
     public Review() {
     }
 
-    public Review(String reviewID, String ISBN, String username, String userReview, String name) {
+    public Review(String reviewID, String userReview, String ISBN, String username, String name) {
         this.reviewID = reviewID;
+        this.userReview = userReview;
         this.ISBN = ISBN;
         this.username = username;
-        this.userReview = userReview;
         this.name = name;
     }
 
@@ -31,6 +32,14 @@ public class Review {
 
     public void setReviewID(String reviewID) {
         this.reviewID = reviewID;
+    }
+
+    public String getUserReview() {
+        return userReview;
+    }
+
+    public void setUserReview(String userReview) {
+        this.userReview = userReview;
     }
 
     public String getISBN() {
@@ -47,14 +56,6 @@ public class Review {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getUserReview() {
-        return userReview;
-    }
-
-    public void setUserReview(String userReview) {
-        this.userReview = userReview;
     }
 
     public String getName() {

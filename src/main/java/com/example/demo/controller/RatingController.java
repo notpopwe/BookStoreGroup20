@@ -24,11 +24,25 @@ public class RatingController {
 
     /*Get the average rating for the entered ISBN*/
 
-    /*@GetMapping("/ratings/{ISBN}")
-    public Rating getAverageRatings(@PathVariable String ISBN) {
+    @GetMapping("/ratings/{ISBN}")
+    public ResponseEntity<List<Rating>> getAverageRatings(@PathVariable String ISBN) {
+        int i;
+        int totalRating = 0;
+        List<Rating> bookRating = this.ratingRepository.findByISBN(ISBN);
+        /*
+        while(bookRating.size() > 0)
+        {
+            i = bookRating.size();
+            totalRating = bookRating.get(i).getUserRating() * bookRating.get(i).getRatingScale();
+            i--;
+        }
+
+         */
+
+        return ResponseEntity.ok(bookRating);
+
 
     }
-    */
     @PostMapping("/ratings")
     public ResponseEntity createRating(@RequestBody RatingRequest ratingRequest) {
         Rating ratings = new Rating();

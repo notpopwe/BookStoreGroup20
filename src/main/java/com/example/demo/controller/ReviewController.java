@@ -30,7 +30,7 @@ public class ReviewController{
 
         if(bookReviews.isEmpty())
         {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok("This book with ISBN{" + ISBN + "} does not have any reviews yet");
         }else {
             return ResponseEntity.ok(bookReviews);
         }
@@ -44,9 +44,9 @@ public class ReviewController{
         reviews.setReviewID(reviews.getReviewID());
         reviews.setISBN(reviewRequest.getISBN());
         reviews.setUsername(reviewRequest.getUsername());
-        reviews.setUserReview(reviewRequest.getUserReview());
         reviews.setName(reviewRequest.getName());
+        reviews.setUserReview(reviewRequest.getUserReview());
 
-        return ResponseEntity.status(201).body((Review)this.reviewRepository.save(reviews));
+        return ResponseEntity.status(201).body(this.reviewRepository.save(reviews));
     }
 }
