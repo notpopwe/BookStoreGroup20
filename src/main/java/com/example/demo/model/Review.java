@@ -1,20 +1,24 @@
-package com.example.demo.resource;
+package com.example.demo.model;
 
-import com.example.demo.model.Book;
-import com.example.demo.model.User;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class ReviewRequest {
+@Document("reviews")
+public class Review {
+
+    @Id
     private String reviewID;
-
     private String userReview;
+
     private String ISBN;
     private String username;
     private String name;
 
-    public ReviewRequest() {
+    public Review() {
     }
 
-    public ReviewRequest(String reviewID, String userReview, String ISBN, String username, String name) {
+    public Review(String reviewID, String userReview, String ISBN, String username, String name) {
         this.reviewID = reviewID;
         this.userReview = userReview;
         this.ISBN = ISBN;

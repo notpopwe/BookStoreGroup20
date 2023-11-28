@@ -1,16 +1,26 @@
-package com.example.demo.resource;
+package com.example.demo.model;
 
-public class RatingRequest {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
+
+
+@Document("ratings")
+public class Rating {
+
+    List<Rating> totalReviews;
+    @Id
     private String ratingId;
+
     private int userRating;
     private String ISBN;
     private String username;
 
-
-    public RatingRequest() {
+    public Rating() {
     }
 
-    public RatingRequest(String ratingId, int userRating, String ISBN, String username) {
+    public Rating(String ratingId, int userRating, String ISBN, String username) {
         this.ratingId = ratingId;
         this.userRating = userRating;
         this.ISBN = ISBN;
