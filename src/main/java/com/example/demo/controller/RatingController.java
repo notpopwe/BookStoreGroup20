@@ -6,6 +6,7 @@ import com.example.demo.resource.RatingRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 @RestController
@@ -25,22 +26,31 @@ public class RatingController {
     /*Get the average rating for the entered ISBN*/
 
     @GetMapping("/ratings/{ISBN}")
-    public ResponseEntity<List<Rating>> getAverageRatings(@PathVariable String ISBN) {
+    public ResponseEntity getAverageRatings(@PathVariable String ISBN) {
         int i;
         int totalRating = 0;
+        float averageRating;
         List<Rating> bookRating = this.ratingRepository.findByISBN(ISBN);
-        /*
-        while(bookRating.size() > 0)
+        DecimalFormat df = new DecimalFormat(".0");
+
+        Rating ratings = new Rating();
+
+        i = bookRating.size() - 1;
+        while(i != -1)
         {
-            i = bookRating.size();
-            totalRating = bookRating.get(i).getUserRating() * bookRating.get(i).getRatingScale();
+            totalRating += (bookRating.get(i).getUserRating());
             i--;
         }
 
-         */
+        averageRating = (float) totalRating / bookRating.size();
 
-        return ResponseEntity.ok(bookRating);
-
+        if(bookRating.isEmpty())
+        {
+            return ResponseEntity.ok("This book with ISBN{" + ISBN +"} does not have any ratings yet");
+        }
+        else {
+            return ResponseEntity.ok("The average rating for the book with ISBN{" + ISBN + "} is: " + df.format(averageRating));
+        }
 
     }
     @PostMapping("/ratings")
@@ -55,7 +65,6 @@ public class RatingController {
         {
            return ResponseEntity.ok("Invalid Rating");
         }
-        ratings.setAverageRating(ratings.getAverageRating());
 
         return ResponseEntity.status(201).body(this.ratingRepository.save(ratings));
 
